@@ -1,0 +1,15 @@
+html
+    head
+        title= "CoJsFiddle"
+        script(type="text/javascript")
+            var socket = io.connect('http://localhost:3000');
+            socket.on('news', function (data) {
+                console.log(data);
+            }
+    header= "CoJsFiddle Demo"
+    br
+    body
+        div(id="test")
+            textarea(rows="20", cols="100")
+    br
+    footer="University of California, Irvine"

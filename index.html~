@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <script src="/javascripts/socket.io.js"></script>
+        <script>
+           var socket = io.connect('http://localhost');
+        </script>
+    </head>
+    <body>
+    <textarea id="js" rows="15" cols="60"></textarea>
+    <textarea id="css" rows="15" cols="60"></textarea>
+    <textarea id="html" rows="15" cols="60"></textarea>
+    <iframe name="ifr" id="ifr" width="200px;" height="200px">
+        This is a sample
+    </iframe>
+    <button id="run">run</button>
+    <script>
+        socket.on('js', function (data) {
+            console.log(data.data);
+            document.getElementById('js').value = data.data;
+        });
+        document.getElementById('js').onkeyup = function(e){
+            var currentText = document.getElementById("js").value;
+            socket.emit('updatejs', { my: currentText });
+        };
+        socket.on('css', function (data) {
+            console.log(data.data);
+            document.getElementById('css').value = data.data;
+        });
+        document.getElementById('css').onkeyup = function(e){
+            var currentText = document.getElementById("css").value;
+            socket.emit('updatecss', { my: currentText });
+        };
+        socket.on('html', function (data) {
+            console.log(data.data);
+            document.getElementById('html').value = data.data;
+        });
+        document.getElementById('html').onkeyup = function(e){
+            var currentText = document.getElementById("html").value;
+            socket.emit('updatehtml', { my: currentText });
+        };
+        socket.on('startRun', function (data) {
+            console.debug("ran here");
+            document.getElementById("run").click();
+        });
+        document.getElementById("run").onclick = function(e) {
+            socket.emit('run',{event: 'run'});
+            var text = "<head><style type='text/css'>";
+            text += document.getElementById("css").value;
+            text += "</style>";
+            text += "<script type='text/javascript'>";
+            text += document.getElementById("js").value;
+            text += "<\/script></head>";
+            text += "<body>";
+            text += document.getElementById("html").value;
+            text += "</body>";
+            console.log(text);
+            console.log(window.frames['ifr'].document.html);
+            window.frames['ifr'].document.open();
+            window.frames['ifr'].document.write(text);
+            window.frames['ifr'].document.close();
+        }
+    </script>
+    </body>
+</html>
