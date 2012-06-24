@@ -14,35 +14,38 @@
     </iframe>
     <button id="run">run</button>
     <script>
-        socket.on('js', function (data) {
+        var url = document.URL;
+        var id = url.split("/")[url.split("/").length-1];
+        console.debug(id);
+        socket.on(id + 'js', function (data) {
             console.log(data.data);
             document.getElementById('js').value = data.data;
         });
         document.getElementById('js').onkeyup = function(e){
             var currentText = document.getElementById("js").value;
-            socket.emit('updatejs', { my: currentText });
+            socket.emit(id + 'updatejs', { my: currentText });
         };
-        socket.on('css', function (data) {
+        socket.on(id + 'css', function (data) {
             console.log(data.data);
             document.getElementById('css').value = data.data;
         });
         document.getElementById('css').onkeyup = function(e){
             var currentText = document.getElementById("css").value;
-            socket.emit('updatecss', { my: currentText });
+            socket.emit(id + 'updatecss', { my: currentText });
         };
-        socket.on('html', function (data) {
+        socket.on(id + 'html', function (data) {
             console.log(data.data);
             document.getElementById('html').value = data.data;
         });
         document.getElementById('html').onkeyup = function(e){
             var currentText = document.getElementById("html").value;
-            socket.emit('updatehtml', { my: currentText });
+            socket.emit(id + 'updatehtml', { my: currentText });
         };
-        socket.on('startRun', function (data) {
+        socket.on(id + 'startRun', function (data) {
             document.getElementById("run").click();
         });
         document.getElementById("run").onclick = function(e) {
-            socket.emit('run',{event: 'run'});
+            socket.emit(id + 'run',{event: 'run'});
             var text = "<head><style type='text/css'>";
             text += document.getElementById("css").value;
             text += "</style>";

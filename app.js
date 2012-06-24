@@ -31,34 +31,48 @@ app.configure('production', function(){
 });
 
 app.listen(3000);
+var map = [];
+app.get('/:id', function (req, res) {
+    var id = req.params.id;
+    if (id == "favicon.ico") return;
+    console.log("id retrieved is " + id);
+    if (id.indexOf('javascripts') != -1) {
+        res.sendfile(__dirname + '/index.html');
+    } else {
+        if (typeof map[id] == "undefined") {
+            map[id] = {};
+            map[id].html = "";
+            map[id].js = "";
+            map[id].css = "";
+            console.log(map);
+            io.sockets.on('connection', function (socket) {
+                socket.on(id+'updatejs', function (data) {
+                    js = data.my;
+                    //emits to all - broadcast
+                    socket.broadcast.emit(id+'js', { data: js });
+                });
+                socket.on(id+'updatecss', function (data) {
+                    css = data.my;
+                    //emits to all - broadcast
+                    socket.broadcast.emit(id+'css', { data: css });
+                });
+                socket.on(id+'updatehtml', function (data) {
+                    html = data.my;
+                    //emits to all - broadcast
+                    socket.broadcast.emit(id+'html', { data: html });
+                });
+                socket.on(id+'run', function (data) {
+                    socket.broadcast.emit(id+'startRun', { data: 'run' });
+                });
+            });
+        } else {
+            console.log("reached to else with id = " + id);
+             io.sockets.emit(id + 'js', { data: map[id].js });
+             io.sockets.emit(id + 'css', { data: map[id].css });
+             io.sockets.emit(id + 'html', { data: map[id].html });
+        }
+        res.sendfile(__dirname + '/index.html');
+    }
+});
 
-app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/index.html');
-});
-var js ="";
-var html="";
-var css="";
-io.sockets.on('connection', function (socket) {
-  io.sockets.emit('js', { data: js });
-  io.sockets.emit('css', { data: css });
-  io.sockets.emit('html', { data: html });
-  socket.on('updatejs', function (data) {
-    js = data.my;
-    //emits to all - broadcast
-    socket.broadcast.emit('js', { data: js });
-  });
-  socket.on('updatecss', function (data) {
-    css = data.my;
-    //emits to all - broadcast
-    socket.broadcast.emit('css', { data: css });
-  });
-  socket.on('updatehtml', function (data) {
-    html = data.my;
-    //emits to all - broadcast
-    socket.broadcast.emit('html', { data: html });
-  });
-  socket.on('run', function (data) {
-    socket.broadcast.emit('startRun', { data: html });
-  });
-});
 
