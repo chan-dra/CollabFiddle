@@ -37,7 +37,7 @@ app.get('/:id', function (req, res) {
     if (id == "favicon.ico") return;
     console.log("id retrieved is " + id);
     if (id.indexOf('javascripts') != -1) {
-        res.sendfile(__dirname + '/index.html');
+        res.sendfile(__dirname + '/public/javascripts/socket.io.js');
     } else {
         if (typeof map[id] == "undefined") {
             map[id] = {};

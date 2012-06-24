@@ -37,7 +37,7 @@ app.get('/:id', function (req, res) {
     if (id == "favicon.ico") return;
     console.log("id retrieved is " + id);
     if (id.indexOf('javascripts') != -1) {
-        res.sendfile(__dirname + '/index.html');
+        res.sendfile(__dirname + '/public/javascripts/socket.io.js');
     } else {
         if (typeof map[id] == "undefined") {
             map[id] = {};
@@ -67,9 +67,9 @@ app.get('/:id', function (req, res) {
             });
         } else {
             console.log("reached to else with id = " + id);
-             socket.broadcast.emit(id + 'js', { data: map[id].js });
-             socket.broadcast.emit(id + 'css', { data: map[id].css });
-             socket.broadcast.emit(id + 'html', { data: map[id].html });
+             io.sockets.emit(id + 'js', { data: map[id].js });
+             io.sockets.emit(id + 'css', { data: map[id].css });
+             io.sockets.emit(id + 'html', { data: map[id].html });
         }
         res.sendfile(__dirname + '/index.html');
     }
