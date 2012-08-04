@@ -48,16 +48,19 @@ app.get('/:id', function (req, res) {
             io.sockets.on('connection', function (socket) {
                 socket.on(id+'updatejs', function (data) {
                     js = data.my;
+                    map[id].js = js;
                     //emits to all - broadcast
                     socket.broadcast.emit(id+'js', { data: js });
                 });
                 socket.on(id+'updatecss', function (data) {
                     css = data.my;
+                    map[id].css = css;
                     //emits to all - broadcast
                     socket.broadcast.emit(id+'css', { data: css });
                 });
                 socket.on(id+'updatehtml', function (data) {
                     html = data.my;
+                    map[id].html = html;
                     //emits to all - broadcast
                     socket.broadcast.emit(id+'html', { data: html });
                 });
@@ -67,9 +70,13 @@ app.get('/:id', function (req, res) {
             });
         } else {
             console.log("reached to else with id = " + id);
-             io.sockets.emit(id + 'js', { data: map[id].js });
-             io.sockets.emit(id + 'css', { data: map[id].css });
-             io.sockets.emit(id + 'html', { data: map[id].html });
+            console.log(map[id].js);
+            setTimeout(function() {
+                io.sockets.emit(id + 'js', { data: map[id].js });
+                io.sockets.emit(id + 'css', { data: map[id].css });
+                io.sockets.emit(id + 'html', { data: map[id].html });
+            }, 1000);
+             
         }
         res.sendfile(__dirname + '/index.html');
     }

@@ -4,14 +4,49 @@
         <script>
            var socket = io.connect('http://localhost');
         </script>
+        <h1 align='center'>CollabFiddle</h1>
     </head>
     <body>
-    <textarea id="js" rows="15" cols="60"></textarea>
-    <textarea id="css" rows="15" cols="60"></textarea>
-    <textarea id="html" rows="15" cols="60"></textarea>
-    <iframe name="ifr" id="ifr" width="200px;" height="200px">
-        This is a sample
-    </iframe>
+    <table>
+        <tr>
+            <td>
+                JavaScript:
+            </td>
+            <td>
+                CSS:
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <textarea id="js" rows="15" cols="60"></textarea>
+            </td>
+            <td>
+                <textarea id="css" rows="15" cols="60"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                HTML:
+            </td>
+            <td>
+                Result:
+            </td>
+        </tr>
+        <tr>
+            <td>
+                 <textarea id="html" rows="15" cols="60"></textarea>
+            </td>
+            <td>
+                <iframe name="ifr" id="ifr" width="435px;" height="198px">
+                    <p>doesn't support iframe</p>
+                </iframe>
+            </td>
+        </tr>
+    </table>
+    
+    
+   
+    
     <button id="run">run</button>
     <script>
         var url = document.URL;
@@ -42,10 +77,6 @@
             socket.emit(id + 'updatehtml', { my: currentText });
         };
         socket.on(id + 'startRun', function (data) {
-            document.getElementById("run").click();
-        });
-        document.getElementById("run").onclick = function(e) {
-            socket.emit(id + 'run',{event: 'run'});
             var text = "<head><style type='text/css'>";
             text += document.getElementById("css").value;
             text += "</style>";
@@ -60,6 +91,23 @@
             window.frames['ifr'].document.open();
             window.frames['ifr'].document.write(text);
             window.frames['ifr'].document.close();
+        });
+        document.getElementById("run").onclick = function(e) {
+            var text = "<head><style type='text/css'>";
+            text += document.getElementById("css").value;
+            text += "</style>";
+            text += "<script type='text/javascript'>";
+            text += document.getElementById("js").value;
+            text += "<\/script></head>";
+            text += "<body>";
+            text += document.getElementById("html").value;
+            text += "</body>";
+            console.log(text);
+            console.log(window.frames['ifr'].document.html);
+            window.frames['ifr'].document.open();
+            window.frames['ifr'].document.write(text);
+            window.frames['ifr'].document.close();
+            socket.emit(id + 'run',{event: 'run'});
         }
     </script>
     </body>
