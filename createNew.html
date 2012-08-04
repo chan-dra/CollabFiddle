@@ -1,0 +1,31 @@
+<html>
+<head>
+    <script type='text/javascript'>
+        function createNew() {
+            var val = document.getElementById('create').value;
+            if (val) {
+                window.location = 'http://localhost:3000/'+val;
+            } else {
+                alert('Enter a name for the CollabFiddle');
+            }
+        }
+    </script>
+</head>
+<h1 align='center'>Welcome to ColabFiddle!</h1>
+<body>
+    <table align='center'>
+        <tr>
+            <td>
+                <input type='text' id='create'></input>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick='createNew()'>Create new CollabFiddle</button>
+            </td>
+        </tr>
+        <tr>
+    </table>
+    
+</body>
+</html>

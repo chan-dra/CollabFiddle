@@ -32,6 +32,9 @@ app.configure('production', function(){
 
 app.listen(3000);
 var map = [];
+app.get('/', function(req, res) {
+    res.sendfile(__dirname + '/createNew.html');
+})
 app.get('/:id', function (req, res) {
     var id = req.params.id;
     if (id == "favicon.ico") return;
