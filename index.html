@@ -4,7 +4,57 @@
         <script>
            var socket = io.connect('http://localhost');
         </script>
-        <h1 align='center'>CollabFiddle</h1>
+        <style type='text/css'>
+            body{
+                /* IE10 Consumer Preview */ 
+                background-image: -ms-linear-gradient(bottom, #F1F7FE 0%, #C4E9FE 100%);
+
+                /* Mozilla Firefox */ 
+                background-image: -moz-linear-gradient(bottom, #F1F7FE 0%, #C4E9FE 100%);
+
+                /* Opera */ 
+                background-image: -o-linear-gradient(bottom, #F1F7FE 0%, #C4E9FE 100%);
+
+                /* Webkit (Safari/Chrome 10) */ 
+                background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #F1F7FE), color-stop(1, #C4E9FE));
+
+                /* Webkit (Chrome 11+) */ 
+                background-image: -webkit-linear-gradient(bottom, #F1F7FE 0%, #C4E9FE 100%);
+
+                /* W3C Markup, IE10 Release Preview */ 
+                background-image: linear-gradient(to top, #F1F7FE 0%, #C4E9FE 100%);
+            }
+            .classname {
+	            -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	            -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	            box-shadow:inset 0px 1px 0px 0px #ffffff;
+	            background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+	            background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+	            background-color:#ededed;
+	            -moz-border-radius:6px;
+	            -webkit-border-radius:6px;
+	            border-radius:6px;
+	            border:1px solid #dcdcdc;
+	            display:inline-block;
+	            color:#777777;
+	            font-family:arial;
+	            font-size:15px;
+	            font-weight:bold;
+	            padding:6px 24px;
+	            text-decoration:none;
+	            text-shadow:1px 1px 0px #ffffff;
+            }.classname:hover {
+	            background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+	            background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+	            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+	            background-color:#dfdfdf;
+            }.classname:active {
+	            position:relative;
+	            top:1px;
+            }
+        </style>
+        <h1 align='center' style='font-family:Courier New'>CollabFiddle</h1>
     </head>
     <body>
     <table>
@@ -37,17 +87,15 @@
                  <textarea id="html" rows="15" cols="60"></textarea>
             </td>
             <td>
-                <iframe name="ifr" id="ifr" width="435px;" height="198  px">
+                <iframe name="ifr" id="ifr" width="435px;" height="198 px" style='background: white'>
                     <p>doesn't support iframe</p>
                 </iframe>
             </td>
         </tr>
     </table>
-    
-    
-   
-    
-    <button id="run">run</button>
+    <br/>
+    <br/>
+    <div align='center'><button id="run" class='classname'>run</button></div>
     <script>
         var url = document.URL;
         var id = url.split("/")[url.split("/").length-1];
